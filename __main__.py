@@ -18,7 +18,7 @@ gke_master_node_count = config.get_int("nodesPerZone", 1)
 
 # setting unique values for the nodepool
 gke_nodepool_name = config.get("nodepoolName", "mixtral-nodepool")
-gke_nodepool_node_count = config.get_int("nodesPerZone", 1)
+gke_nodepool_node_count = config.get_int("nodesPerZone", 2)
 gke_ml_machine_type = config.get("mlMachines", "g2-standard-24")
 
 # Create a cluster in the new network and subnet
@@ -62,12 +62,12 @@ gke_nodepool = gcp.container.NodePool(
         machine_type=gke_ml_machine_type,
         disk_size_gb=20,
         ephemeral_storage_local_ssd_config={
-            "local_ssd_count": "1",
+            "local_ssd_count": "2",
         },
         guest_accelerators=[
             gcp.container.NodePoolNodeConfigGuestAcceleratorArgs(
                 type="nvidia-l4",
-                count=1,  # Changed to 1 due to quota limit
+                count=2,  # Changed to 1 due to quota limit
                 gpu_driver_installation_config={
                     "gpu_driver_version": "LATEST",
                 },
