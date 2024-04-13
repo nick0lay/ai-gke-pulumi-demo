@@ -86,15 +86,15 @@ In our Python demo, we will be standing up a GKE Cluster. Pulumi allows us to [c
 
 ```bash
 pulumi config set gcp:project $PROJECT_ID
-pulumi config set gcp:projectNumber $PROJECT_NUMBER
-pulumi config set gcp:gceSA $GCE_SA  
 pulumi config set gcp:region $REGION
 pulumi config set gcp:zone $ZONE
-pulumi config set gcp:gkeNetwork $NETWORK
-pulumi config set gcp:clusterName mixtral-gke-cluster
-pulumi config set gcp:master_version 1.27
-pulumi config set gcp:node_count 5
-pulumi config set gcp:node_machine_type n2d-standard-4
+pulumi config set projectNumber $PROJECT_NUMBER
+pulumi config set gceSA $GCE_SA  
+pulumi config set gkeNetwork $NETWORK
+pulumi config set clusterName mixtral-gke-cluster
+pulumi config set master_version 1.27
+pulumi config set node_count 5
+pulumi config set node_machine_type n2d-standard-4
 ```
 
 Notice how we are using some of the variables we set earlier.
@@ -102,7 +102,7 @@ Notice how we are using some of the variables we set earlier.
 
 ## Pulumi and Python
 
-You will see that I have a `__main__.py` file in the root. This program will tell Pulumi to build a Kubernetes cluster with machine type *n2d-standard-4*. It will also create a separate nodepool with *g2-standard-24* machines. This machine type is needed to run the [NVIDIA L4s](https://cloud.google.com/blog/products/compute/introducing-g2-vms-with-nvidia-l4-gpus).
+You will see that I have a `__main__.py` file in the root. This program will tell Pulumi to build a Kubernetes cluster with machine type *n2d-standard-4*. It will also create a separate nodepool with *g2-standard-24* machines. This machine type is needed to run the [NVIDIA L4s](https://cloud.google.com/blog/products/compute/introducing-g2-vms-with-nvidia-l4-gpus). Check out GPU availability in regions [GPU regions and zones availability](https://cloud.google.com/compute/docs/gpus/gpu-regions-zones) before starting using it.
 
 Once completed, it will create a [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) so that we can access the cluster. In the `k8s` directory, you will see that I created a `mixtral.py` file. This Python module will deploy the Kubernetes deployment and a service. While [Gateways](https://kubernetes.io/docs/concepts/services-networking/gateway/) are the current best practice for exposing a Kubernetes workload, for the purposes of this demo, we are using a [LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/).
 
